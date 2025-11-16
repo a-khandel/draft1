@@ -7,6 +7,13 @@ import { createHtmlPlugin } from "vite-plugin-html";
 export default defineConfig({
   server: {
     host: '0.0.0.0',
+    proxy: {
+      '/stream': {
+        target: process.env.AGENT_API_ORIGIN || 'http://localhost:8787',
+        changeOrigin: true,
+        rewrite: (path) => path, // keep /stream as-is
+      },
+    },
   },
   plugins: [
     react(),
