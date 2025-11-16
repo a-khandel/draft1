@@ -1,0 +1,16 @@
+/* Make TLDraw background transparent */
+.tldraw-transparent {
+  background: transparent !important;
+}
+
+.tldraw-transparent .tl-background {
+  background: transparent !important;
+}
+
+.tldraw-transparent .tl-canvas {
+  background: transparent !important;
+}
+
+.tldraw-transparent .tldraw__editor {
+  background: transparent !important;
+}

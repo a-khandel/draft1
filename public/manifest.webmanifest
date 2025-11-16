@@ -1,0 +1,12 @@
+{
+  "name": "stanfordxr",
+  "short_name": "stanfordxr",
+  "start_url": "/",
+  "display": "standalone",
+  "xr_main_scene": {
+    "default_size": {
+      "width": 1200,
+      "height": 800
+    }
+  }
+}
