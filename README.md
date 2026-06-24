@@ -47,3 +47,7 @@ XR_DEV_SERVER="[URL from `pnpm dev:avp`]" pnpm run:avp
 - [Introduction](https://webspatial.dev/docs/introduction)
 - [Core Concepts](https://webspatial.dev/docs/core-concepts)
 - [Development Guide](https://webspatial.dev/docs/development-guide)
+
+## Maintainers
+
+Maintained by the Relay team.
