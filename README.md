@@ -1,3 +1,16 @@
+## About draft1
+
+**draft1** is a first-draft spatial AI canvas application for Apple Vision Pro (visionOS). It combines [tldraw](https://tldraw.dev)'s infinite whiteboard with an AI agent backend — powered by Anthropic, OpenAI, and Google models via Cloudflare Workers and Durable Objects — and adds voice input through a Whisper speech-to-text server. The entire experience is delivered as a native spatial app using the [WebSpatial SDK](https://webspatial.dev), enabling multi-window layouts and immersive UI on visionOS.
+
+**Key features:**
+- 🖊️ Tldraw infinite canvas with AI agent integration
+- 🤖 AI chat panel backed by Anthropic, OpenAI, and Google models
+- 🎙️ Voice recording with Whisper speech-to-text transcription
+- 🥽 Native visionOS spatial experience via the WebSpatial SDK
+- ☁️ Cloudflare Workers + Durable Objects backend
+
+---
+
 <div align="center">
   <img src="assets/logo.png" alt="WebSpatial Logo" width="400"/>
 
