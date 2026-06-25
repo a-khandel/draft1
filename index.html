@@ -1,18 +1,540 @@
 <!DOCTYPE html>
-<%- XR_ENV === 'avp' ? `
-<html lang="en" class="is-spatial">
-  ` : `
-  <html lang="en">
-    ` %>
-    <head>
-      <meta charset="UTF-8" />
-      <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta http-equiv="Permissions-Policy" content="microphone=*" />
-      <title>Vite + React + TS</title>
-    </head>
-    <body>
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-    </body>
-  </html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Relay — Seamless async collaboration for modern teams." />
+    <title>Relay — Collaborate Without the Chaos</title>
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      /* ── Animations ──────────────────────────────────────────── */
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(28px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      @keyframes pulse-slow {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0.6; }
+      }
+
+      .animate-fade-in-up {
+        animation: fadeInUp 0.7s ease both;
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.8s ease both;
+      }
+      .delay-100 { animation-delay: 0.10s; }
+      .delay-200 { animation-delay: 0.20s; }
+      .delay-300 { animation-delay: 0.30s; }
+      .delay-400 { animation-delay: 0.40s; }
+      .delay-500 { animation-delay: 0.50s; }
+      .delay-600 { animation-delay: 0.60s; }
+
+      /* gradient hero background */
+      .hero-bg {
+        background: linear-gradient(135deg, #0f0c29 0%, #1a1a4e 40%, #24243e 100%);
+      }
+
+      /* feature card hover lift */
+      .feature-card {
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .feature-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.18);
+      }
+
+      /* step card hover */
+      .step-card {
+        transition: transform 0.25s ease, background 0.25s ease;
+      }
+      .step-card:hover {
+        transform: translateY(-4px);
+        background: #f5f3ff;
+      }
+
+      /* CTA button shine effect */
+      .btn-primary {
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .btn-primary::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.18) 50%, transparent 70%);
+        transform: translateX(-100%);
+        transition: transform 0.5s ease;
+      }
+      .btn-primary:hover::after { transform: translateX(100%); }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(99, 102, 241, 0.45);
+      }
+
+      /* secondary button */
+      .btn-secondary {
+        transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      }
+      .btn-secondary:hover {
+        background: rgba(255,255,255,0.12);
+      }
+
+      /* nav link underline slide */
+      .nav-link {
+        position: relative;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 0; bottom: -2px;
+        width: 0; height: 2px;
+        background: #818cf8;
+        transition: width 0.3s ease;
+      }
+      .nav-link:hover::after { width: 100%; }
+
+      /* footer link hover */
+      .footer-link {
+        transition: color 0.2s ease;
+      }
+      .footer-link:hover { color: #a5b4fc; }
+    </style>
+  </head>
+
+  <body class="antialiased text-gray-900 bg-white">
+
+    <!-- ══════════════════════════════════════════════════════════
+         NAVIGATION
+    ══════════════════════════════════════════════════════════ -->
+    <nav class="hero-bg fixed inset-x-0 top-0 z-50 border-b border-white/10">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        <!-- Brand -->
+        <a href="#" class="flex items-center gap-2 text-white font-bold text-xl tracking-tight">
+          <!-- Lightning bolt icon -->
+          <svg class="w-7 h-7 text-indigo-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M13 2L4.5 13.5H11L10 22L20.5 10.5H14L13 2Z"/>
+          </svg>
+          Relay
+        </a>
+
+        <!-- Desktop links -->
+        <div class="hidden md:flex items-center gap-8 text-sm text-white/80 font-medium">
+          <a href="#features" class="nav-link">Features</a>
+          <a href="#how-it-works" class="nav-link">How It Works</a>
+          <a href="#footer" class="nav-link">Company</a>
+        </div>
+
+        <!-- Nav CTA -->
+        <a href="#hero-cta"
+           class="btn-primary hidden sm:inline-flex items-center gap-1.5 rounded-full bg-indigo-500 px-5 py-2 text-sm font-semibold text-white shadow-lg">
+          Get Started Free
+        </a>
+
+        <!-- Mobile menu toggle (visual only — no JS needed for static demo) -->
+        <button class="sm:hidden text-white/80 hover:text-white focus:outline-none" aria-label="Toggle menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+
+    <!-- ══════════════════════════════════════════════════════════
+         HERO SECTION
+    ══════════════════════════════════════════════════════════ -->
+    <section id="hero" class="hero-bg min-h-screen flex items-center pt-16">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
+
+        <!-- Eyebrow badge -->
+        <span class="animate-fade-in inline-flex items-center gap-1.5 rounded-full border border-indigo-400/30
+                     bg-indigo-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-indigo-300 mb-8">
+          <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-[pulse-slow_2s_ease-in-out_infinite]"></span>
+          Now in public beta
+        </span>
+
+        <!-- Tagline -->
+        <h1 class="animate-fade-in-up delay-100 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold
+                   tracking-tight text-white leading-tight">
+          Collaborate Without<br class="hidden sm:block"/>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+            the&nbsp;Chaos
+          </span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="animate-fade-in-up delay-200 mt-6 text-base sm:text-lg md:text-xl text-white/60
+                  max-w-2xl mx-auto leading-relaxed">
+          Relay turns scattered messages, voice notes, and tasks into a single,
+          calm workspace — so your team ships faster without drowning in noise.
+        </p>
+
+        <!-- CTA buttons -->
+        <div id="hero-cta"
+             class="animate-fade-in-up delay-300 mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#how-it-works"
+             class="btn-primary w-full sm:w-auto rounded-full bg-indigo-500 px-8 py-3.5 text-base
+                    font-semibold text-white shadow-xl shadow-indigo-500/30">
+            Start for Free
+          </a>
+          <a href="#features"
+             class="btn-secondary w-full sm:w-auto rounded-full border border-white/20 px-8 py-3.5
+                    text-base font-semibold text-white/80">
+            See How It Works &rarr;
+          </a>
+        </div>
+
+        <!-- Social proof -->
+        <p class="animate-fade-in delay-500 mt-10 text-sm text-white/40">
+          Trusted by <span class="text-white/70 font-medium">2,400+</span> teams at companies like
+          <span class="text-white/70 font-medium">Acme, Horizon,</span> and
+          <span class="text-white/70 font-medium">Stratos</span>
+        </p>
+
+        <!-- Decorative hero image / mock UI -->
+        <div class="animate-fade-in-up delay-400 mt-16 relative mx-auto max-w-3xl">
+          <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-2xl overflow-hidden">
+            <!-- Fake browser chrome -->
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-white/10 bg-white/5">
+              <span class="w-3 h-3 rounded-full bg-red-400/70"></span>
+              <span class="w-3 h-3 rounded-full bg-yellow-400/70"></span>
+              <span class="w-3 h-3 rounded-full bg-green-400/70"></span>
+              <span class="ml-4 flex-1 rounded bg-white/10 h-5 text-xs text-white/30 flex items-center px-3">
+                app.relay.so
+              </span>
+            </div>
+            <!-- Mock content rows -->
+            <div class="px-6 py-6 space-y-3">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-indigo-400/40 flex-shrink-0"></span>
+                <div class="flex-1 space-y-1.5">
+                  <div class="h-2.5 rounded bg-white/20 w-1/3"></div>
+                  <div class="h-2 rounded bg-white/10 w-2/3"></div>
+                </div>
+                <span class="text-xs text-white/30">just now</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-purple-400/40 flex-shrink-0"></span>
+                <div class="flex-1 space-y-1.5">
+                  <div class="h-2.5 rounded bg-white/20 w-1/2"></div>
+                  <div class="h-2 rounded bg-white/10 w-3/4"></div>
+                </div>
+                <span class="text-xs text-white/30">2 m ago</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-pink-400/40 flex-shrink-0"></span>
+                <div class="flex-1 space-y-1.5">
+                  <div class="h-2.5 rounded bg-white/20 w-2/5"></div>
+                  <div class="h-2 rounded bg-white/10 w-1/2"></div>
+                </div>
+                <span class="text-xs text-white/30">5 m ago</span>
+              </div>
+            </div>
+          </div>
+          <!-- Glow blobs -->
+          <div class="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-indigo-600/20 blur-3xl -z-10 pointer-events-none"></div>
+          <div class="absolute -bottom-16 -right-16 w-60 h-60 rounded-full bg-purple-600/20 blur-3xl -z-10 pointer-events-none"></div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════
+         FEATURES SECTION
+    ══════════════════════════════════════════════════════════ -->
+    <section id="features" class="py-24 sm:py-32 bg-white">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+
+        <!-- Section header -->
+        <div class="text-center mb-16">
+          <p class="text-sm font-semibold uppercase tracking-widest text-indigo-600 mb-3">Features</p>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900">
+            Everything your team needs,<br class="hidden sm:block"/>
+            nothing it doesn't
+          </h2>
+          <p class="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
+            Relay combines the best of async messaging, task management,
+            and voice — in one beautifully simple product.
+          </p>
+        </div>
+
+        <!-- 3-feature grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+          <!-- Feature 1 — Voice Messages -->
+          <div class="feature-card rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
+            <div class="mb-5 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600">
+              <!-- Mic icon -->
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Async Voice</h3>
+            <p class="text-gray-500 leading-relaxed">
+              Send rich voice messages that teammates can listen to on their own schedule.
+              No more forcing everyone into a meeting to share a quick update.
+            </p>
+            <ul class="mt-5 space-y-2 text-sm text-gray-400">
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                </svg>
+                Auto-transcription included
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                </svg>
+                Emoji reactions &amp; replies
+              </li>
+            </ul>
+          </div>
+
+          <!-- Feature 2 — Smart Tasks -->
+          <div class="feature-card rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
+            <div class="mb-5 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-purple-50 text-purple-600">
+              <!-- Checkbox icon -->
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Smart Tasks</h3>
+            <p class="text-gray-500 leading-relaxed">
+              Turn any message into an actionable task in one click. Assign, prioritise,
+              and track work without leaving your conversation flow.
+            </p>
+            <ul class="mt-5 space-y-2 text-sm text-gray-400">
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-purple-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                </svg>
+                AI-suggested assignees
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-purple-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                </svg>
+                Kanban &amp; list views
+              </li>
+            </ul>
+          </div>
+
+          <!-- Feature 3 — Unified Inbox -->
+          <div class="feature-card rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
+            <div class="mb-5 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-pink-50 text-pink-600">
+              <!-- Inbox / tray icon -->
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0a2 2 0 01-2 2H6a2 2 0 01-2-2m16 0l-3.5-7h-9L4 13"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Unified Inbox</h3>
+            <p class="text-gray-500 leading-relaxed">
+              All your messages, mentions, and tasks arrive in one prioritised inbox.
+              Focus mode blocks distractions so you can do deep work when it counts.
+            </p>
+            <ul class="mt-5 space-y-2 text-sm text-gray-400">
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-pink-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                </svg>
+                Priority AI sorting
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-pink-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                </svg>
+                DND &amp; focus scheduling
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════
+         HOW IT WORKS SECTION
+    ══════════════════════════════════════════════════════════ -->
+    <section id="how-it-works" class="py-24 sm:py-32 bg-slate-50">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+
+        <!-- Section header -->
+        <div class="text-center mb-16">
+          <p class="text-sm font-semibold uppercase tracking-widest text-indigo-600 mb-3">How It Works</p>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900">
+            Up and running in minutes
+          </h2>
+          <p class="mt-4 text-lg text-gray-500 max-w-xl mx-auto">
+            No long onboarding. No mandatory training sessions.
+            Three steps and your team is collaborating better today.
+          </p>
+        </div>
+
+        <!-- Steps — horizontal on md+ -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+
+          <!-- Connector line (desktop only) -->
+          <div class="hidden md:block absolute top-10 left-1/3 right-1/3 h-px bg-indigo-200 -z-10 pointer-events-none"></div>
+
+          <!-- Step 1 -->
+          <div class="step-card rounded-2xl bg-white border border-gray-100 shadow-sm p-8 text-center">
+            <div class="mx-auto mb-5 flex items-center justify-center w-14 h-14 rounded-full
+                        bg-indigo-600 text-white text-xl font-bold shadow-lg shadow-indigo-500/30">
+              1
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Create Your Workspace</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Sign up free, name your workspace, and invite your team with a single link.
+              Relay handles permissions automatically.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card rounded-2xl bg-white border border-gray-100 shadow-sm p-8 text-center">
+            <div class="mx-auto mb-5 flex items-center justify-center w-14 h-14 rounded-full
+                        bg-purple-600 text-white text-xl font-bold shadow-lg shadow-purple-500/30">
+              2
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Connect Your Tools</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Link GitHub, Figma, Google Drive, and 30+ integrations in seconds.
+              Context lives right inside your conversations.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card rounded-2xl bg-white border border-gray-100 shadow-sm p-8 text-center">
+            <div class="mx-auto mb-5 flex items-center justify-center w-14 h-14 rounded-full
+                        bg-pink-600 text-white text-xl font-bold shadow-lg shadow-pink-500/30">
+              3
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Ship Faster, Stress Less</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Watch response times drop, meetings shrink, and team morale climb.
+              Relay keeps everyone aligned without the noise.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Bottom CTA -->
+        <div class="mt-16 text-center">
+          <a href="#"
+             class="btn-primary inline-flex items-center gap-2 rounded-full bg-indigo-600 px-10 py-4
+                    text-base font-semibold text-white shadow-xl shadow-indigo-500/30">
+            Get Started — It's Free
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </a>
+          <p class="mt-3 text-sm text-gray-400">No credit card required · Free forever for small teams</p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════════════════════
+         FOOTER
+    ══════════════════════════════════════════════════════════ -->
+    <footer id="footer" class="hero-bg border-t border-white/10">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-14">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+
+          <!-- Brand col -->
+          <div class="md:col-span-1">
+            <a href="#" class="flex items-center gap-2 text-white font-bold text-lg tracking-tight mb-3">
+              <svg class="w-6 h-6 text-indigo-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M13 2L4.5 13.5H11L10 22L20.5 10.5H14L13 2Z"/>
+              </svg>
+              Relay
+            </a>
+            <p class="text-sm text-white/50 leading-relaxed">
+              Seamless async collaboration for modern teams. Built with &#10084;&#65039; for people who hate meetings.
+            </p>
+          </div>
+
+          <!-- Product links -->
+          <div>
+            <h4 class="text-xs font-semibold uppercase tracking-widest text-white/40 mb-4">Product</h4>
+            <ul class="space-y-2.5 text-sm text-white/60">
+              <li><a href="#features" class="footer-link">Features</a></li>
+              <li><a href="#how-it-works" class="footer-link">How It Works</a></li>
+              <li><a href="#" class="footer-link">Pricing</a></li>
+              <li><a href="#" class="footer-link">Changelog</a></li>
+            </ul>
+          </div>
+
+          <!-- Company links -->
+          <div>
+            <h4 class="text-xs font-semibold uppercase tracking-widest text-white/40 mb-4">Company</h4>
+            <ul class="space-y-2.5 text-sm text-white/60">
+              <li><a href="#" class="footer-link">About</a></li>
+              <li><a href="#" class="footer-link">Blog</a></li>
+              <li><a href="#" class="footer-link">Careers</a></li>
+              <li><a href="#" class="footer-link">Press</a></li>
+            </ul>
+          </div>
+
+          <!-- Legal / social links -->
+          <div>
+            <h4 class="text-xs font-semibold uppercase tracking-widest text-white/40 mb-4">Legal</h4>
+            <ul class="space-y-2.5 text-sm text-white/60">
+              <li><a href="#" class="footer-link">Privacy Policy</a></li>
+              <li><a href="#" class="footer-link">Terms of Service</a></li>
+              <li><a href="#" class="footer-link">Cookie Settings</a></li>
+              <li><a href="#" class="footer-link">Security</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Divider + copyright -->
+        <div class="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center
+                    justify-between gap-4 text-sm text-white/30">
+          <p>&copy; 2025 Relay, Inc. All rights reserved.</p>
+          <div class="flex items-center gap-5">
+            <!-- Twitter/X -->
+            <a href="#" class="footer-link" aria-label="Twitter">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+            <!-- GitHub -->
+            <a href="#" class="footer-link" aria-label="GitHub">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+              </svg>
+            </a>
+            <!-- LinkedIn -->
+            <a href="#" class="footer-link" aria-label="LinkedIn">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+
+  </body>
+</html>
