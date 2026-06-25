@@ -7,6 +7,8 @@ Make the Web Spatial Too
 
 # Quick Example
 
+A minimal starter app for building spatial web experiences with the WebSpatial SDK, React, TypeScript, and Vite.
+
 > WebSpatial SDK + React + TypeScript + Vite
 
 <div align="center" style="width: 100%; max-width: 1200px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
