@@ -1,18 +1,35 @@
 <!DOCTYPE html>
-<%- XR_ENV === 'avp' ? `
-<html lang="en" class="is-spatial">
-  ` : `
-  <html lang="en">
-    ` %>
-    <head>
-      <meta charset="UTF-8" />
-      <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta http-equiv="Permissions-Policy" content="microphone=*" />
-      <title>Vite + React + TS</title>
-    </head>
-    <body>
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-    </body>
-  </html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Full-Text Search</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="fs-layout">
+      <header class="fs-header">
+        <h1 class="fs-header__title">Search</h1>
+        <p class="fs-header__subtitle">Find anything in the collection instantly.</p>
+        <input
+          type="search"
+          id="fs-search-input"
+          class="fs-input"
+          placeholder="Type to search titles, descriptions, tags…"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Search"
+        />
+      </header>
+
+      <section aria-live="polite" aria-atomic="true">
+        <p id="fs-count" class="fs-count" aria-live="polite"></p>
+        <div id="fs-results" class="fs-results"></div>
+      </section>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="search.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
