@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="New Mobile App" />
+    <title>New Mobile App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+
+      <header class="app__header">
+        <div class="app__header-inner">
+          <span class="app__logo">MyApp</span>
+          <nav class="app__nav">
+            <ul class="app__nav-list">
+              <li class="app__nav-item"><a class="app__nav-link app__nav-link--active" href="#">Home</a></li>
+              <li class="app__nav-item"><a class="app__nav-link" href="#">About</a></li>
+              <li class="app__nav-item"><a class="app__nav-link" href="#">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      <main class="app__content">
+        <section class="app__hero">
+          <h1 class="app__hero-title">Welcome to New Mobile App</h1>
+          <p class="app__hero-subtitle">A fast, modern, mobile-first experience built with simplicity in mind.</p>
+          <button class="app__btn app__btn--primary" id="js-get-started">Get Started</button>
+        </section>
+
+        <section class="app__features">
+          <h2 class="app__section-title">Features</h2>
+          <ul class="app__feature-list">
+            <li class="app__feature-item">
+              <span class="app__feature-icon" aria-hidden="true">📱</span>
+              <div class="app__feature-body">
+                <h3 class="app__feature-title">Mobile First</h3>
+                <p class="app__feature-desc">Designed for small screens and progressively enhanced for larger ones.</p>
+              </div>
+            </li>
+            <li class="app__feature-item">
+              <span class="app__feature-icon" aria-hidden="true">⚡</span>
+              <div class="app__feature-body">
+                <h3 class="app__feature-title">Blazing Fast</h3>
+                <p class="app__feature-desc">Minimal dependencies and optimised assets keep load times low.</p>
+              </div>
+            </li>
+            <li class="app__feature-item">
+              <span class="app__feature-icon" aria-hidden="true">🎨</span>
+              <div class="app__feature-body">
+                <h3 class="app__feature-title">Clean Design</h3>
+                <p class="app__feature-desc">Consistent design tokens and BEM styles for a polished look.</p>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="app__footer">
+        <p class="app__footer-text">&copy; <span id="js-year"></span> New Mobile App. All rights reserved.</p>
+      </footer>
+
+    </div><!-- /.app -->
+
+    <script src="index.js"></script>
+  </body>
+</html>
